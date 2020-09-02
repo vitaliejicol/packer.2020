@@ -1,0 +1,64 @@
+{
+    "variables": {
+        "aws_access_key": "{{env `AWS_ACCESS_KEY_ID`}}",
+        "aws_secret_key": "{{env `AWS_SECRET_ACCESS_KEY`}}",
+        "region": "{{env `AWS_REGION`}}",
+        "ami_name": "{{env `PACKER_AMI_NAME`}}"
+     },
+    "builders": [{
+        "access_key": "{{user `aws_access_key`}}",
+        "secret_key": "{{user `aws_secret_key`}}",
+        "region": "{{user `region`}}",
+        "ami_name": "{{user `ami_name`}}",
+        "instance_type": "t2.micro",
+        "source_ami_filter": {
+            "filters": {
+              "virtualization-type": "hvm",
+              "name": "CentOS Linux 7 x86_64 HVM EBS ENA 1901_01-b7ee8a69-ee97-4a49-9e68-afaee216db2e-*",
+              "root-device-type": "ebs"
+            },
+            "owners": [
+              "679593333241"
+            ],
+            "most_recent": true
+          },
+        "ssh_username": "centos",
+        "type": "amazon-ebs"
+        }
+      ],
+    "provisioners": [{
+        "type": "shell",
+            "inline":[
+                "sudo yum install wget vim  -y",
+                "sudo yum install httpd -y",
+                "sudo systemctl start httpd",
+                "sudo systemctl enable httpd",
+                "sudo yum install epel-release -y",
+                "sudo yum install git -y",
+                "sudo yum install java-1.8.0-openjdk-devel -y",
+                "sudo yum install ansible -y",
+                "sudo  yum install -y wget unzip",
+
+                "wget https://releases.hashicorp.com/terraform/0.13.1/terraform_0.13.1_linux_amd64.zip",
+                "unzip terraform_0.13.1_linux_amd64.zip",
+                "mv terraform /usr/bin/terraform-0.13",
+
+                "wget https://releases.hashicorp.com/terraform/0.12.29/terraform_0.12.29_linux_amd64.zip",
+                "unzip terraform_0.12.29_linux_amd64.zip",
+                "mv terraform /usr/bin/terraform-0.12",
+
+                "wget https://releases.hashicorp.com/terraform/0.11.14/terraform_0.11.14_linux_amd64.zip",
+                "unzip terraform_0.11.14_linux_amd64.zip",
+                "mv terraform /usr/bin/terraform-0.11",
+
+                "sudo yum install -y yum-utils",
+                "sudo yum-config-manager --add-repo https://rpm.releases.hashicorp.com/RHEL/hashicorp.repo",
+                "sudp mv /usr/sbin/packer /usr/sbin/packer_original",
+                 "sudo yum install -y packer"
+                
+                
+
+
+            ]
+    }]
+  }
