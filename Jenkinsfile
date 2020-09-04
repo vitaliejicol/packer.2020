@@ -25,7 +25,7 @@ node {
         withEnv(["AWS_REGION=${aws_region_var}", "PACKER_AMI_NAME=${ami_name}"]) {
          
             stage('Packer Validate') {
-                cleanWS()
+          
                 sh 'packer validate worker_prepare.json'
             }
             def ami_id = ''
