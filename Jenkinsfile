@@ -47,12 +47,10 @@ node {
             }
 
             stage("Pull Repo"){
-        cleanWs()
-        git url: 'https://github.com/vitaliejicol/terraform-ec2.git'
+                cleanWs()
+                git url: 'https://github.com/vitaliejicol/terraform-ec2.git'
     }
 
-    withCredentials([usernamePassword(credentialsId: 'jenkins-aws-access-key', passwordVariable: 'AWS_SECRET_ACCESS_KEY', usernameVariable: 'AWS_ACCESS_KEY_ID')]) {
-        withEnv(["AWS_REGION=${aws_region_var}"]) {
             stage("Terrraform Init"){
                 writeFile file: "${(env.BRANCH_NAME ==~ "dev.*")}.tfvars", text: "${tf_vars}"
                 sh """
