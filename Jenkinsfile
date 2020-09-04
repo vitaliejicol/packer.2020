@@ -17,7 +17,7 @@ else if(env.BRANCH_NAME ==~ "master"){
 
 node {
     stage('Pull Repo') {
-        git url: 'https://https://github.com/vitaliejicol/packer.works'
+        git url: 'https://github.com/vitaliejicol/packer.works'
     }
 
     def ami_name = "apache-${UUID.randomUUID().toString()}"
