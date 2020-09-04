@@ -16,17 +16,17 @@ else if(params.environment ==~ "prod-*"){
 
 node {
     stage('Pull Repo') {
-        git url: 'https://github.com/ikambarov/packer.git'
+        git url: 'https://github.com/vitaliejicol/packer.works.git'
     }
-
+    def ami_name = "apache-${UUID.randomUUID().toString()}"
     withCredentials([usernamePassword(credentialsId: 'jenkins-aws-access-key', passwordVariable: 'AWS_SECRET_ACCESS_KEY', usernameVariable: 'AWS_ACCESS_KEY_ID')]) {
         withEnv(["AWS_REGION=${aws_region_var}", "PACKER_AMI_NAME=apache-${UUID.randomUUID().toString()}"]) {
             stage('Packer Validate') {
-                sh 'packer validate apache.json'
+                sh 'packer validate packer_works.json'
             }
             def ami_id = ''
             stage('Packer Build') {
-                sh 'packer build apache.json | tee output.txt'
+                sh 'packer build packer_works.json | tee output.txt'
 
                 def ami_id = sh(script: "cat output.txt | grep ${aws_region_var} | awk \'{print \$2}\'", returnStdout: true).trim()
                 println(ami_id)
