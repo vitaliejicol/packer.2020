@@ -1,4 +1,4 @@
-ef aws_region_var = ''
+def aws_region_var = ''
 def environment = ''
 
 
