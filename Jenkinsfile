@@ -31,7 +31,7 @@ node {
             stage('Packer Build') {
                 sh 'packer build worker_prepare.json | tee output.txt'
 
-                ami_id = sh(script: "cat output.txt | grep us-east-2 | awk \'{print \$2}\'", returnStdout: true).trim()
+                ami_id = sh(script: "cat output.txt | grep us-east-1 | awk \'{print \$2}\'", returnStdout: true).trim()
                 println(ami_id)
             }
 
