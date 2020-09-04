@@ -42,6 +42,19 @@ node {
                     string(name: 'env.BRANCH_NAME', value: "${env.BRANCH_NAME}"),
                     string(name: 'ami_id', value: "${ami_id}")
                     ]
+            
+            stage("Generate Variables") {
+                dir('deployments/terraform') {
+
+                println("Generate Variables")
+                def deployment_configuration_tfvars = """
+                environment = "${environment}"
+                """.stripIndent()
+                writeFile file: 'deployment_configuration.tfvars', text: "${deployment_configuration_tfvars}"
+                sh 'cat deployment_configuration.tfvars >> dev.tfvars'
+
+                }   
+             }
             }
         }  
     }
