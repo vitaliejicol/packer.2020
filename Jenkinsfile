@@ -32,7 +32,7 @@ node {
 
                 //ami_id = sh(script: "cat output.txt | grep ${aws_region_var} | awk '{print \$2}' ", returnStdout: true).trim()
                 //println(ami_id)
-                ami_id = "ami-091bece8f6ae5ae7f"
+                ami_id = "ami-0cebb45b34604efb8"
             }
 
             stage('Create EC2 Instance'){
