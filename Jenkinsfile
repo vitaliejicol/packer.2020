@@ -26,12 +26,13 @@ node {
             stage('Packer Validate') {
                 sh 'packer validate worker_prepare.json'
             }
-            def ami_id =''
+            def ami_id = ''
             stage('Packer Build') {
-                sh 'packer build worker_prepare.json | tee output.txt'
+                //sh 'packer build worker_prepare.json | tee output.txt'
 
-                ami_id = sh(script: "cat output.txt | grep ${aws_region_var} | awk '{print \$2}' ", returnStdout: true).trim()
-                println(ami_id)
+                //ami_id = sh(script: "cat output.txt | grep ${aws_region_var} | awk '{print \$2}' ", returnStdout: true).trim()
+                //println(ami_id)
+                ami_id = "ami-091bece8f6ae5ae7f"
             }
 
             stage('Create EC2 Instance'){
