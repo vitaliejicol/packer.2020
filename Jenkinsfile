@@ -23,6 +23,7 @@ node {
     def ami_name = "apache-${UUID.randomUUID().toString()}"
     withCredentials([usernamePassword(credentialsId: 'jenkins-aws-access-key', passwordVariable: 'AWS_SECRET_ACCESS_KEY', usernameVariable: 'AWS_ACCESS_KEY_ID')]) {
         withEnv(["AWS_REGION=${aws_region_var}", "PACKER_AMI_NAME=${ami_name}"]) {
+            cleanWS()
             stage('Packer Validate') {
                 sh 'packer validate worker_prepare.json'
             }
@@ -32,7 +33,7 @@ node {
 
                 //ami_id = sh(script: "cat output.txt | grep ${aws_region_var} | awk '{print \$2}' ", returnStdout: true).trim()
                 //println(ami_id)
-                ami_id = "ami-0cebb45b34604efb8"
+                ami_id = "ami-091bece8f6ae5ae7f"
             }
 
             stage('Create EC2 Instance'){
@@ -40,7 +41,7 @@ node {
                     booleanParam(name: 'terraform_apply', value: true),
                     booleanParam(name: 'terraform_destroy', value: false),
                     string(name: 'environment', value: "${environment}"),
-                    string(name: 'ami_id', value: "${ami_id.trim()}")
+                    string(name: 'ami_id', value: "${ami_id}")
                     ]
             }
         }  
