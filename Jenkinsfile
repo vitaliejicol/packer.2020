@@ -24,7 +24,7 @@ node {
             stage('Packer Validate') {
                 sh 'packer validate apache.json'
             }
-
+            def ami_id = ''
             stage('Packer Build') {
                 sh 'packer build apache.json | tee output.txt'
 
