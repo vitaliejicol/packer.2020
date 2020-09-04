@@ -22,11 +22,11 @@ node {
     withCredentials([usernamePassword(credentialsId: 'jenkins-aws-access-key', passwordVariable: 'AWS_SECRET_ACCESS_KEY', usernameVariable: 'AWS_ACCESS_KEY_ID')]) {
         withEnv(["AWS_REGION=${aws_region_var}", "PACKER_AMI_NAME=apache-${UUID.randomUUID().toString()}"]) {
             stage('Packer Validate') {
-                sh 'packer validate packer_works.json'
+                sh 'packer validate worker_prepare.json'
             }
             def ami_id = ''
             stage('Packer Build') {
-                sh 'packer build packer_works.json | tee output.txt'
+                sh 'packer build worker_prepare.json | tee output.txt'
 
                 def ami_id = sh(script: "cat output.txt | grep ${aws_region_var} | awk \'{print \$2}\'", returnStdout: true).trim()
                 println(ami_id)
