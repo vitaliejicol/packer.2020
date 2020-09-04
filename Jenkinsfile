@@ -39,7 +39,7 @@ node {
                 build job: 'terraform-ec2', parameters: [
                     booleanParam(name: 'terraform_apply', value: true),
                     booleanParam(name: 'terraform_destroy', value: false),
-                    string(name: 'environment', value: "${env.BRANCH_NAME}"),
+                    string(name: 'env.BRANCH_NAME', value: "${env.BRANCH_NAME}"),
                     string(name: 'ami_id', value: "${ami_id}")
                     ]
             }
