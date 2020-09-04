@@ -26,11 +26,11 @@ node {
             stage('Packer Validate') {
                 sh 'packer validate worker_prepare.json'
             }
-
+            def ami_id =''
             stage('Packer Build') {
                 sh 'packer build worker_prepare.json | tee output.txt'
 
-                def ami_id = sh(script: "cat output.txt | grep ${aws_region_var} | awk '{print \$2}' ", returnStdout: true).trim()
+                ami_id = sh(script: "cat output.txt | grep ${aws_region_var} | awk '{print \$2}' ", returnStdout: true).trim()
                 println(ami_id)
             }
 
