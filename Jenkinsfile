@@ -32,15 +32,15 @@ node {
 
                 //ami_id = sh(script: "cat output.txt | grep ${aws_region_var} | awk '{print \$2}' ", returnStdout: true).trim()
                 //println(ami_id)
-                ami_id = "ami-0cebb45b34604efb8"
+                ami_id = "ami-091bece8f6ae5ae7f"
             }
 
             stage('Create EC2 Instance'){
                 build job: 'terraform-ec2', parameters: [
                     booleanParam(name: 'terraform_apply', value: true),
                     booleanParam(name: 'terraform_destroy', value: false),
-                    string(name: 'environment', value: "${environment}"),
-                    string(name: 'ami_id', value: "${ami_id.trim()}")
+                    string(name: 'environment', value: "${env.BRANCH_NAME}"),
+                    string(name: 'ami_id', value: "${ami_id}")
                     ]
             }
         }  
