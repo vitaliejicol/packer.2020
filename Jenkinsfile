@@ -4,7 +4,7 @@ def environment = ''
 
 if(env.BRANCH_NAME ==~ "dev.*"){
     aws_region_var = "us-east-1"
-    environment = "dev.*"
+    environment = "dev"
 }
 else if(env.BRANCH_NAME ==~ "qa.*"){
     aws_region_var = "us-east-2"
