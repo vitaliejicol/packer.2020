@@ -17,18 +17,18 @@ else if(env.BRANCH_NAME ==~ "master"){
 
 node {
     stage('Pull Repo') {
-        git url: 'https://github.com/ikambarov/packer.git'
+        git url: 'https://https://github.com/vitaliejicol/packer.works'
     }
 
     def ami_name = "apache-${UUID.randomUUID().toString()}"
     withCredentials([usernamePassword(credentialsId: 'jenkins-aws-access-key', passwordVariable: 'AWS_SECRET_ACCESS_KEY', usernameVariable: 'AWS_ACCESS_KEY_ID')]) {
         withEnv(["AWS_REGION=${aws_region_var}", "PACKER_AMI_NAME=${ami_name}"]) {
             stage('Packer Validate') {
-                sh 'packer validate apache.json'
+                sh 'packer validate worker_prepare.json'
             }
 
             stage('Packer Build') {
-                sh 'packer build apache.json | tee output.txt'
+                sh 'packer build worker_prepare.json | tee output.txt'
 
                 def ami_id = sh(script: "cat output.txt | grep ${aws_region_var} | awk '{print \$2}' ", returnStdout: true).trim()
                 println(ami_id)
